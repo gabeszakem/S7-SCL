@@ -1,0 +1,41 @@
+FUNCTION_BLOCK FB2000 // Átlag számítás 20 értékből
+TITLE = 'Átlag számítás 20 értékből'
+VERSION: '1.0'
+AUTHOR: 'KG & FD'
+
+VAR_INPUT
+    INV: REAL;
+END_VAR
+
+VAR
+    VALUES: ARRAY[0..49] OF REAL;
+END_VAR
+
+VAR_TEMP
+    I: INT;
+    TEMPOUT: REAL;
+END_VAR
+
+VAR_OUTPUT
+    OUT: REAL;
+END_VAR
+
+BEGIN  
+    
+  // Előző értékek eltolása a tömbben
+  FOR I := 0 TO 18 BY 1 DO
+    VALUES[19-I] := VALUES[19-(I+1)];
+  END_FOR;
+
+  VALUES[0] := INV;
+  
+  // Integrálás
+  TEMPOUT := 0;
+  FOR I := 0 TO 19 BY 1 DO
+    TEMPOUT := TEMPOUT + VALUES[I];
+  END_FOR;
+  
+  OUT := TEMPOUT / 20;
+  
+END_FUNCTION_BLOCK
+

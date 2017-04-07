@@ -1,0 +1,132 @@
+
+FUNCTION_BLOCK Omron_vast_mero
+
+VAR_INPUT
+    Meres:      BOOL;
+    Kalib:      BOOL;
+END_VAR
+
+VAR_TEMP
+    Eleje:      INT;
+    Vege:       INT;
+    i:          INT;
+    x:          INT;
+    z:          INT;
+    elso:       BOOL;
+END_VAR
+
+VAR
+    Reszet:     BOOL;
+    varakozas:  TON;
+    hatvanyok:  ARRAY[1..10]OF REAL 
+    := 
+    1e0,
+    1e1,
+    1e2,
+    1e3,
+    1e4,
+    1e5,
+    1e6,
+    1e7,
+    1e8,
+    1e9;
+    Adat:       ARRAY [0..12]OF CHAR;
+    Karakter:   ARRAY [1..12] OF INT;
+    v:          BOOL;
+END_VAR
+
+VAR_OUTPUT
+    Vast:       REAL;
+    RST_OK
+    {S7_string_0:='Sikertelen'; S7_string_1:='Rendben'}
+    :     BOOL;
+END_VAR
+
+
+
+BEGIN
+varakozas(PT:= T#2s);
+
+Adat[0]:= BYTE_TO_CHAR(PIB748);
+Adat[1]:= BYTE_TO_CHAR(PIB749);
+Adat[2]:= BYTE_TO_CHAR(PIB750);
+Adat[3]:= BYTE_TO_CHAR(PIB751);
+Adat[4]:= BYTE_TO_CHAR(PIB752);
+Adat[5]:= BYTE_TO_CHAR(PIB753);
+Adat[6]:= BYTE_TO_CHAR(PIB754);
+Adat[7]:= BYTE_TO_CHAR(PIB755);
+Adat[8]:= BYTE_TO_CHAR(PIB756);
+Adat[9]:= BYTE_TO_CHAR(PIB757);
+Adat[10]:= BYTE_TO_CHAR(PIB758);
+Adat[11]:= BYTE_TO_CHAR(PIB759);
+Adat[12]:= BYTE_TO_CHAR(PIB760);
+
+Eleje:=0;
+Vege:=0;
+elso:=false;
+
+IF Meres AND NOT Reszet THEN 
+    FOR i:=0 TO 12 BY 1 DO
+        //Elso karakter
+        IF (Adat[i] > '0') AND (Adat[i] <= '9') AND NOT elso THEN 
+            elso:=true;
+            Eleje:= i;
+        END_IF;
+        //Utolsó karakter
+        IF elso AND ((Adat[i] < '0') OR (Adat[i] > '9')) THEN 
+            Vege:= i-1;
+            EXIT;
+        END_IF;
+    END_FOR;
+        IF (Eleje > 0) THEN
+            FOR x:=0 TO (Vege - Eleje) BY 1 DO
+                Karakter[x]:=CHAR_TO_INT(Adat[Eleje + x])-48;
+            END_FOR;
+            
+            Vast:=0;
+            
+            FOR z:=1 TO x BY 1 DO
+                Vast:= Vast + (hatvanyok[z] * (Karakter[x-z]));
+            END_FOR;
+            
+            Vast:= Vast/10000;
+        END_IF;
+
+PQW748:= 16#4D0D;//M_
+PQW750:= 16#0000;//
+PQW752:= 16#0000;//
+PQW754:= 16#0000;//
+END_IF;
+
+IF Kalib AND NOT Meres AND NOT Reszet THEN
+    Reszet:= true;
+END_IF;
+    
+    
+IF Reszet THEN
+    varakozas(IN:=true);
+    IF PIW748= 16#4F4B AND PIB750= 16#0D THEN
+        v:=true;
+        RST_OK:=true;
+    ELSE 
+        v:=false;
+    END_IF;
+    
+    IF varakozas.Q THEN
+        RST_OK:=false;
+    END_IF;
+        
+    IF varakozas.Q OR v THEN
+        varakozas(IN:=FALSE);
+        Reszet:=FALSE;
+        v:=false;       
+    END_IF;
+    
+    PQW748:= 16#5A45;//ZE
+    PQW750:= 16#524F;//RO
+    PQW752:= 16#5253;//RS
+    PQW754:= 16#540D;//T_
+END_IF;
+
+
+END_FUNCTION_BLOCK

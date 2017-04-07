@@ -1,0 +1,37 @@
+
+FUNCTION FC1000: INT
+
+VAR_TEMP
+  // Temporary Variables\
+  tempreal1:REAL;
+  tempreal2:REAL;
+
+END_VAR  
+VAR_INPUT
+IN : REAL;
+    
+END_VAR
+
+VAR_OUTPUT
+OUT_INT : INT; 
+OUT_DINT : DINT; 
+OUT_REAL : REAL;          
+
+END_VAR
+
+  // Instruction Section
+  
+  
+  
+  tempreal1:=TRUNC(IN);
+  tempreal2:=(IN - tempreal1)*100;
+  IF tempreal2>59
+  THEN
+      tempreal2:=59;
+  END_IF;
+  OUT_REAL:=tempreal1+tempreal2/100;
+  OUT_INT:=REAL_TO_INT(tempreal1*60+tempreal2);
+  OUT_DINT:=Int_TO_DINT(OUT_INT);
+  ;
+  FC1000 := 100;
+END_FUNCTION

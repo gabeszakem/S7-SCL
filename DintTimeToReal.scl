@@ -1,0 +1,26 @@
+FUNCTION FC1002: INT
+
+VAR_TEMP
+  // Temporary Variables\
+ tempreal1:REAL;
+ tempreal2:REAL;
+ 
+END_VAR  
+VAR_INPUT
+IN : DINT;
+    
+END_VAR
+
+VAR_OUTPUT
+OUT : REAL;          
+
+END_VAR
+tempreal1:=DINT_TO_REAL(IN DIV 60);  
+tempreal2:=(DINT_TO_REAL(IN)-(tempreal1*60))/100;
+OUT:=tempreal1+tempreal2;
+  // Instruction Section
+  ;
+  FC1002 := 100;
+END_FUNCTION
+
+

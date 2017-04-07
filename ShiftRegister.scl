@@ -1,0 +1,92 @@
+
+TITLE = 'Shift_Register'
+//
+// Block Comment...
+//
+VERSION: '1.0'
+AUTHOR: Gabriel
+NAME: shiftRegister
+FAMILY: Gabriel
+
+
+
+FUNCTION_BLOCK FB1100
+
+
+VAR
+  // Static Variables
+STAT0: BOOL;
+STAT1: BOOL;   
+STAT2: BOOL;   
+STAT3: BOOL;   
+STAT4: BOOL;   
+STAT5: BOOL;   
+STAT6: BOOL;   
+STAT7: BOOL;  
+STATIMP: BOOL; 
+
+END_VAR
+
+VAR_INPUT
+IMPULSE: BOOL;
+INPUT: BOOL;
+RESET: BOOL;
+    
+END_VAR
+
+VAR_OUTPUT
+OUT0: BOOL;     
+OUT1: BOOL;     
+OUT2: BOOL;     
+OUT3: BOOL;     
+OUT4: BOOL;     
+OUT5: BOOL; 
+OUT6: BOOL;     
+OUT7: BOOL;
+    
+END_VAR
+
+  // Instruction Section
+  IF IMPULSE = TRUE THEN
+    // Statement Section_IF
+   
+   IF STATIMP = FALSE THEN
+        // Statement Section_IF
+            STATIMP:= TRUE ;
+            STAT7:=STAT6 ;
+            STAT6:=STAT5 ;
+            STAT5:=STAT4 ;
+            STAT4:=STAT3 ;
+            STAT3:=STAT2 ;
+            STAT2:=STAT1 ;
+            STAT1:=STAT0 ;
+            STAT0:=INPUT ;
+   END_IF;
+   
+  ELSE
+    // Statement Section_ELSE
+    STATIMP:= FALSE ;
+  END_IF;
+  
+  IF RESET = TRUE THEN
+      STATIMP:=FALSE;
+      STAT0:=FALSE;
+      STAT1:=FALSE;
+      STAT2:=FALSE;
+      STAT3:=FALSE;
+      STAT4:=FALSE;
+      STAT5:=FALSE;
+      STAT6:=FALSE;
+      STAT7:=FALSE;
+  END_IF;
+  
+    OUT0:=STAT0 ;
+    OUT1:=STAT1 ;
+    OUT2:=STAT2 ;
+    OUT3:=STAT3 ;
+    OUT4:=STAT4 ;
+    OUT5:=STAT5 ;
+    OUT6:=STAT6 ;
+    OUT7:=STAT7 ;
+
+

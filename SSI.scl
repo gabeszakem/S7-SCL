@@ -1,0 +1,47 @@
+FUNCTION_BLOCK FB940
+
+VAR_TEMP
+  // Temporary Variables
+
+END_VAR
+VAR
+  // Static Variables
+  Caltemp:BOOL; //Segédváltozó felfutóél vizsgálathoz
+  Raw:REAL; //Bejövo érték Realben
+  Correction:REAL; // Korrekciós érték
+  ScaledValue:REAL; //Beskálázott érték
+
+END_VAR
+// Block Parameters
+VAR_INPUT
+  // Input Parameters
+  PIN:DWORD; //Kódadó
+  Resolution:REAL; //Felbontás
+  CalVal:REAL; // Kalibráláskor beirandó érték
+  Calibration:BOOL; //Kalibráló bemenet
+
+END_VAR
+
+VAR_OUTPUT
+ // Output Parameters
+ Output:REAL;
+
+END_VAR
+
+  Raw:=DINT_TO_REAL(DWORD_TO_DINT(PIN));
+  
+  //A beolvasott jel beskálázása 
+  ScaledValue:=Resolution * Raw;
+  
+  //Calibrálás figyelés csak felfutó élre müködik. 
+  IF (Calibration=TRUE)AND(Caltemp=False)THEN
+        Correction:=ScaledValue-CalVal;
+  END_IF;
+
+  //Kimenet irása
+  Output:=ScaledValue-Correction;
+  
+  //Segédváltozó a kalibrálás felfutóél figyeléshez
+  Caltemp:=Calibration;  
+
+END_FUNCTION_BLOCK

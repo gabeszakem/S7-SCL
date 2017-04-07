@@ -1,0 +1,73 @@
+TITLE = 'Sensor_Monitor'
+//
+// Block Comment...
+//
+VERSION: '1.0'
+AUTHOR: Gabriel
+NAME: sensorMonitor
+FAMILY: Gabriel
+
+
+FUNCTION_BLOCK FB1101
+
+VAR_TEMP
+  // Temporary Variables
+
+END_VAR
+VAR
+  // Static Variables
+  REGISTER: BOOL;
+  LASTINPUT: BOOL;
+  OUTPUT: BOOL;
+  STATIMP: BOOL;
+  PULSE: BOOL;
+
+END_VAR
+
+VAR_INPUT
+    
+IMPULSE: BOOL;
+INPUT: BOOL;
+    
+END_VAR
+
+VAR_OUTPUT
+    
+    OUT00: BOOL;
+    OUT01: BOOL;
+
+        
+END_VAR
+  // Instruction Section
+  ;
+  IF IMPULSE = TRUE THEN
+    IF STATIMP = FALSE THEN
+        STATIMP:= TRUE ;
+        PULSE:= TRUE ;
+    ELSE
+        PULSE:=FALSE ;
+    
+    END_IF;
+  ELSE
+    STATIMP:= FALSE ;
+  END_IF;
+
+  
+
+  IF PULSE = FALSE THEN
+    IF NOT (LASTINPUT = INPUT ) THEN
+        REGISTER:= TRUE;
+    END_IF;
+  ELSE
+    IF PULSE = TRUE THEN
+        OUT00:= OUT00 XOR REGISTER;
+        LASTINPUT:=INPUT;
+        REGISTER:= FALSE;
+    END_IF;
+  END_IF;
+    
+  OUT01:=REGISTER;
+
+  
+END_FUNCTION_BLOCK
+

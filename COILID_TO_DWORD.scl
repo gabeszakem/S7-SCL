@@ -1,0 +1,45 @@
+
+FUNCTION_BLOCK COILID_TO_DWORD
+
+TITLE = 'Tekercsszám átalakitása 2 WORD és 1 DWORD tipusra'
+AUTHOR: 'FD'
+VERSION: '1.0'
+
+// Bemeneti változók
+VAR_INPUT
+    STR12: STRING[12];
+END_VAR
+
+// Kimeneti változók
+VAR_OUTPUT
+    OUT_WORDH: WORD;
+    OUT_WORDL: WORD;
+    OUT_DWORD: DWORD;
+END_VAR
+
+// Statikus változók
+VAR
+    VAL_TMP: DINT;
+    I: INT;
+    X: DINT;
+END_VAR
+
+BEGIN
+
+  VAL_TMP := 0;
+
+  FOR I := 1 TO 6 BY 1 DO
+    X := INT_TO_DINT(CHAR_TO_INT(STRING_TO_CHAR(MID(IN := STR12, L := 1, P := I))) - INT#16#30);
+    IF ((X >= 0) AND (X <= 9)) THEN
+      VAL_TMP := VAL_TMP + X * REAL_TO_DINT(10 ** (6 - I));
+    END_IF;
+  END_FOR;
+
+  OUT_DWORD := DINT_TO_DWORD(VAL_TMP);
+  
+  OUT_WORDH := DWORD_TO_WORD(SHR(IN := (OUT_DWORD AND 16#FFFF0000), N := 16));
+  OUT_WORDL := DWORD_TO_WORD(OUT_DWORD AND 16#0000FFFF);  
+  
+END_FUNCTION_BLOCK
+
+

@@ -1,0 +1,193 @@
+
+FUNCTION_BLOCK FB800
+
+VAR_INPUT
+    IN_0: BYTE;
+    IN_1: BYTE;
+    IN_2: BYTE;
+    IN_3: BYTE;
+    IN_4: BYTE;
+    IN_5: BYTE;
+    IN_6: BYTE;
+    IN_7: BYTE;
+    IN_8: BYTE;
+    IN_9: BYTE;
+    IN_10: BYTE;
+    IN_11: BYTE;
+    CMD: BOOL;
+END_VAR
+
+VAR_TEMP
+    CHR: CHAR;
+    DIGIT: INT;
+    VAL: REAL;
+    STR: STRING[12];
+END_VAR
+
+VAR_OUTPUT
+    OUT_VAL: REAL;
+    OUT_STR: STRING[12];
+    OUT_ERROR: BOOL;
+    OUT_CMD0: WORD;
+    OUT_CMD1: WORD;
+    OUT_CMD2: WORD;
+    OUT_CMD3: WORD;
+END_VAR
+
+BEGIN
+    // Alapértékek
+    OUT_VAL := 0.0;
+    OUT_STR := '';
+    OUT_ERROR := FALSE;
+
+    // 11. helyiérték
+    CHR := BYTE_TO_CHAR(IN_0);
+    DIGIT := BYTE_TO_INT(IN_0) - 48;
+    IF ((DIGIT < 0) OR (DIGIT > 9)) THEN
+        IF (DIGIT  <> -16) THEN
+            OUT_ERROR := TRUE;
+        END_IF;
+        DIGIT := 0;
+    END_IF;
+    VAL := DIGIT * (10**10);  
+    STR := CONCAT(IN1 := STR, IN2 := INT_TO_STRING(BYTE_TO_INT(IN_0)));
+
+    // 10. helyiérték
+    CHR := BYTE_TO_CHAR(IN_1);
+    DIGIT := BYTE_TO_INT(IN_1) - 48;
+    IF ((DIGIT < 0) OR (DIGIT >9)) THEN
+        IF (DIGIT  <> -16) THEN
+            OUT_ERROR := TRUE;
+        END_IF;
+        DIGIT := 0;
+    END_IF;
+    VAL := VAL + DIGIT * (10**9);  
+    STR := CONCAT(IN1 := STR, IN2 := INT_TO_STRING(BYTE_TO_INT(IN_1)));
+
+    // 9. helyiérték
+    CHR := BYTE_TO_CHAR(IN_2);
+    DIGIT := BYTE_TO_INT(IN_2) - 48;
+    IF ((DIGIT < 0) OR (DIGIT >9)) THEN
+        IF (DIGIT  <> -16) THEN
+            OUT_ERROR := TRUE;
+        END_IF;
+        DIGIT := 0;
+    END_IF;
+    VAL := VAL + DIGIT * (10**8);  
+    STR := CONCAT(IN1 := STR, IN2 := INT_TO_STRING(BYTE_TO_INT(IN_2)));
+
+    // 8. helyiérték
+    CHR := BYTE_TO_CHAR(IN_3);
+    DIGIT := BYTE_TO_INT(IN_3) - 48;
+    IF ((DIGIT < 0) OR (DIGIT >9)) THEN
+        IF (DIGIT  <> -16) THEN
+            OUT_ERROR := TRUE;
+        END_IF;
+        DIGIT := 0;
+    END_IF;
+    VAL := VAL + DIGIT * (10**7);  
+    STR := CONCAT(IN1 := STR, IN2 :=INT_TO_STRING(BYTE_TO_INT(IN_3)));
+
+    // 7. helyiérték
+    CHR := BYTE_TO_CHAR(IN_4);
+    DIGIT := BYTE_TO_INT(IN_4) - 48;
+    IF ((DIGIT < 0) OR (DIGIT >9)) THEN
+        IF (DIGIT  <> -16) THEN
+            OUT_ERROR := TRUE;
+        END_IF;
+        DIGIT := 0;
+    END_IF;
+    VAL := VAL + DIGIT * (10**6);  
+    STR := CONCAT(IN1 := STR, IN2 := INT_TO_STRING(BYTE_TO_INT(IN_4)));
+
+    // 6. helyiérték
+    CHR := BYTE_TO_CHAR(IN_5);
+    DIGIT := BYTE_TO_INT(IN_5) - 48;
+    IF ((DIGIT < 0) OR (DIGIT >9)) THEN
+        IF (DIGIT  <> -16) THEN
+            OUT_ERROR := TRUE;
+        END_IF;
+        DIGIT := 0;
+    END_IF;
+    VAL := VAL + DIGIT * (10**5);  
+    STR := CONCAT(IN1 := STR, IN2 := INT_TO_STRING(BYTE_TO_INT(IN_5)));
+
+    // 5. helyiérték
+    CHR := BYTE_TO_CHAR(IN_6);
+    DIGIT := BYTE_TO_INT(IN_6) - 48;
+    IF ((DIGIT < 0) OR (DIGIT >9)) THEN
+        IF (DIGIT  <> -16) THEN
+            OUT_ERROR := TRUE;
+        END_IF;
+        DIGIT := 0;
+    END_IF;
+    VAL := VAL + DIGIT * (10**4);  
+    STR := CONCAT(IN1 := STR, IN2 := INT_TO_STRING(BYTE_TO_INT(IN_6)));
+
+    // 4. helyiérték
+    CHR := BYTE_TO_CHAR(IN_7);
+    DIGIT := BYTE_TO_INT(IN_7) - 48;
+    IF ((DIGIT < 0) OR (DIGIT >9)) THEN
+        IF (DIGIT  <> -16) THEN
+            OUT_ERROR := TRUE;
+        END_IF;
+        DIGIT := 0;
+    END_IF;
+    VAL := VAL + DIGIT * (10**3);  
+    STR := CONCAT(IN1 := STR, IN2 := INT_TO_STRING(BYTE_TO_INT(IN_7)));
+
+    // 3. helyiérték
+    CHR := BYTE_TO_CHAR(IN_8);
+    DIGIT := BYTE_TO_INT(IN_8) - 48;
+    IF ((DIGIT < 0) OR (DIGIT >9)) THEN
+        IF (DIGIT  <> -16) THEN
+            OUT_ERROR := TRUE;
+        END_IF;
+        DIGIT := 0;
+    END_IF;
+    VAL := VAL + DIGIT * (10**2);  
+    STR := CONCAT(IN1 := STR, IN2 := INT_TO_STRING(BYTE_TO_INT(IN_8)));
+
+    // 2. helyiérték
+    CHR := BYTE_TO_CHAR(IN_9);
+    DIGIT := BYTE_TO_INT(IN_9) - 48;
+    IF ((DIGIT < 0) OR (DIGIT >9)) THEN
+        IF (DIGIT  <> -16) THEN
+            OUT_ERROR := TRUE;
+        END_IF;
+        DIGIT := 0;
+    END_IF;
+    VAL := VAL + DIGIT * (10**1);  
+    STR := CONCAT(IN1 := STR, IN2 := INT_TO_STRING(BYTE_TO_INT(IN_9)));
+
+    // 1. helyiérték
+    CHR := BYTE_TO_CHAR(IN_10);
+    DIGIT := BYTE_TO_INT(IN_10) - 48;
+    IF ((DIGIT < 0) OR (DIGIT >9)) THEN
+        IF (DIGIT  <> -16) THEN
+            OUT_ERROR := TRUE;
+        END_IF;
+        DIGIT := 0;
+    END_IF;
+    VAL := VAL + DIGIT * (10**0);  
+    STR := CONCAT(IN1 := STR, IN2 := INT_TO_STRING(BYTE_TO_INT(IN_10)));
+
+    // Mérés parancs
+    IF CMD = FALSE THEN
+        OUT_CMD0 := W#16#4D0D;
+        OUT_CMD1 := W#16#0000;
+        OUT_CMD2 := W#16#0000;        
+        OUT_CMD3 := W#16#0000;
+    END_IF;
+    IF CMD = TRUE THEN
+        OUT_CMD0 := W#16#5A45;
+        OUT_CMD1 := W#16#524F;
+        OUT_CMD2 := W#16#5253;        
+        OUT_CMD3 := W#16#540D;
+    END_IF;
+
+    // Átmásolás a kimenetekre
+    OUT_VAL := VAL;
+    OUT_STR := STR;
+END_FUNCTION_BLOCK
+

@@ -1,0 +1,30 @@
+FUNCTION_BLOCK FB3
+
+VAR_TEMP
+  // Temporary Variables
+
+END_VAR
+// Block Parameters
+VAR_INPUT
+  // Input Parameters
+  Enable:BOOL; //Engedélyezö bit
+  STRING1:STRING[20]; //Elsö változó
+  STRING2:STRING[20]; //Második változó
+
+END_VAR
+
+VAR_OUTPUT
+ // Output Parameters
+ Output:BOOL;
+
+END_VAR
+
+  IF Enable THEN
+  Output:= NOT EQ_STRNG (S1:= STRING1,S2:= STRING2);
+ELSE
+  Output:= False;
+  END_IF;
+
+
+END_FUNCTION_BLOCK
+
